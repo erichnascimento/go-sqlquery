@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/erichnascimento/query"
+	"github.com/erichnascimento/go-sqlquery"
 
 	"gopkg.in/DATA-DOG/go-sqlmock.v1"
 )
