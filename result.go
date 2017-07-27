@@ -53,3 +53,13 @@ func Query(conn *sql.DB, query string, args ...interface{}) (*Result, error) {
 
 	return RowToResult(rows)
 }
+
+// QueryStmt performs a query based on a Statement
+func QueryStmt(stmt *sql.Stmt, args ...interface{}) (*Result, error) {
+	rows, err := stmt.Query(args...)
+	if err != nil {
+		return nil, err
+	}
+
+	return RowToResult(rows)
+}

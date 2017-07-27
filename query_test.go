@@ -59,6 +59,22 @@ func TestQueryWithValidData(t *testing.T) {
 	}
 }
 
+func TestQueryStatementWithValidData(t *testing.T) {
+	mockPetsForSuccess()
+
+	stmt, err := db.Prepare("SELECT * FROM pets WHERE id >= ?")
+	if err != nil {
+		t.Errorf(`err = %#v, want = %#v`, err, nil)
+	}
+
+	result, err := query.QueryStmt(stmt, 1)
+	if err != nil {
+		t.Errorf(`err = %#v, want = %#v`, err, nil)
+	}
+
+	result.Close()
+}
+
 func mockPetsForSuccess() []*pet {
 	dj, _ := time.Parse("2006-01-02 15:04:05", "2011-01-03 12:20:00")
 	dz, _ := time.Parse("2006-01-02", "2006-11-23")
@@ -73,6 +89,7 @@ func mockPetsForSuccess() []*pet {
 		rows.AddRow(p.id, p.name, p.isPoodle, p.birthday)
 	}
 	mock.ExpectQuery(`^SELECT \* FROM pets.*`).WillReturnRows(rows)
+	mock.ExpectPrepare(`^SELECT \* FROM pets.*`)
 
 	return pets
 }
